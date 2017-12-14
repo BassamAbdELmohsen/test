@@ -11,20 +11,22 @@ import java.util.Queue;
 import java.util.Set;
 import static scalarquantizer.vector_Quantizer.InitialisingBlocks;
 
+//a7aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
 public class Node {
 
     private int blockCol;
     private int blockRow;
 
     private Double[][] Avg_Block;
-    
+
     private static LinkedList<Node> Treenodes = new LinkedList<Node>();
     private LinkedList<int[][]> List_Of_Blocks = new LinkedList<>();
 
     private Node left;
     private Node right;
 
-    
+
 
     public int getBlockCol() {
         return blockCol;
@@ -42,8 +44,8 @@ public class Node {
         this.blockRow = blockRow;
     }
 
-   
-//****************************************************************************    
+
+//****************************************************************************
 
     Node(Double avgArr[][]) {
         this.Avg_Block = avgArr;
@@ -66,7 +68,7 @@ public class Node {
         int row=node.getAvgBlock().length;
         int col=node.getAvgBlock()[0].length;
         int listsize=node.getList_Of_Blocks().size();
-        
+
         Double avgBlock[][] = new Double[row][col];
 
         for (int j = 0; j < row; j++) {
@@ -85,17 +87,17 @@ public class Node {
 
             }
         }
-        
+
         for (int i = 0; i < row; i++) {
-            
+
             for (int j = 0; j < col; j++) {
-                if (node.getList_Of_Blocks().size() != 0) 
+                if (node.getList_Of_Blocks().size() != 0)
                 {
                     avgBlock[i][j] = avgBlock[i][j] / node.getList_Of_Blocks().size();
                 }
             }
         }
-        
+
         return avgBlock;
     }
 
@@ -178,22 +180,22 @@ public class Node {
 
     public void construct( int numberOfLevels ,int row ,int col) {
         int c = 0;
-        
+
             LinkedList<Double> diffList = new LinkedList<>();
 
             Node root =new Node();
-            
+
             int blockrow=0;
             int blockcol =0;
-            
+
             LinkedList<int[][]>listOfBlocks = InitialisingBlocks(row ,col);
-            
+
             if(listOfBlocks.size()!=0)
             {
              blockrow = listOfBlocks.get(0).length;
              blockcol = listOfBlocks.get(0)[0].length;
             }
-          
+
             int noBlocks = listOfBlocks.size();
             //========================Getting Avg Block=====================================
              Double avgBlock[][] =new Double[blockrow][blockcol];
@@ -204,8 +206,8 @@ public class Node {
                     avgBlock[j][k] = 0.0;
                 }
             }
-            
-        
+
+
 
         for (int i = 0; i < listOfBlocks.size(); i++) {
             for (int j = 0; j < blockrow; j++) {
@@ -213,23 +215,23 @@ public class Node {
                     avgBlock[j][k] += listOfBlocks.get(i)[j][k];
                 }
             }
-            
+
         }
-        
+
         for (int i = 0; i < blockrow; i++) {
             for (int j = 0; j < blockcol; j++) {
                 avgBlock[i][j] /= noBlocks;
             }
         }
 //=================================================================================
- 
-           
-            
+
+
+
             root.setAvgBlock(avgBlock);
-            
+
             root.setBlockRow(blockrow);
             root.setBlockCol(blockcol);
-            
+
             root.setList_Of_Blocks(listOfBlocks);
 
 
@@ -241,7 +243,7 @@ public class Node {
 
         //LEFT&Right ROOT AvgBlock Didnt assigned yet!!!!!!!
         Node rightRoot = new Node(GetAverageHistory(historyAverage, 1));
-       
+
 
         for (int i = 0; i < root.getList_Of_Blocks().size(); i++) {
             if (ComparisonForConstruction(leftRoot.getAvgBlock(), rightRoot.getAvgBlock(), root.getList_Of_Blocks().get(i))) {
@@ -258,7 +260,7 @@ public class Node {
         rightRoot.setList_Of_Blocks(rightlistRoot);
 
 
-        
+
 
         root.setLeft(leftRoot);
         root.setRight(rightRoot);
@@ -271,33 +273,33 @@ public class Node {
             for (int i = 0; i < Treenodes.size(); i++) {
                 Node parent = Treenodes.get(i);
                 Double historyAVG[][] = parent.Get_Settled_Average(parent);
-                
+
                 Node leftNode = new Node(GetAverageHistory(historyAVG, -1));
-                
+
                 leftNode.setBlockRow(blockrow);
                 leftNode.setBlockCol(blockcol);
-                
+
                 Node rightNode = new Node(GetAverageHistory(historyAVG, 1));
                 rightNode.setBlockRow(blockrow);
                 rightNode.setBlockCol(blockcol);
-                
+
                 TemporaryTreeNodes.add(leftNode);
                 TemporaryTreeNodes.add(rightNode);
             }
             Treenodes.clear();
             //***************************comparison block *****************************
                 for (int j = 0; j < listOfBlocks.size(); j++) {
-                    
+
                     for (int k = 0; k < TemporaryTreeNodes.size(); k++) {
 
                         Double diff = CompareDiffrence(listOfBlocks.get(j), TemporaryTreeNodes.get(k).getAvgBlock());
-                        
+
                         diffList.add(diff);
                     }
                     int index = diffList.indexOf(Collections.min(diffList));
-                    
+
                     TemporaryTreeNodes.get(index).getList_Of_Blocks().add(listOfBlocks.get(j));
-                    
+
                     diffList.clear();
                 }
            //========Copy Temproray to the TreeNode again to complete work with it===========
@@ -305,12 +307,12 @@ public class Node {
                 Treenodes.add(TemporaryTreeNodes.get(i));
                 }
                 TemporaryTreeNodes.clear();
-            
+
 
         }
- 
+
         //=================
-        
+
 
     }
 
@@ -334,9 +336,9 @@ public class Node {
         return distance_1;
     }
 
-    
-    
-    
+
+
+
     public LinkedList<Node> Stebalizing(int row,int col) {
 
         LinkedList<Double> diffList = new LinkedList<>();
@@ -379,8 +381,8 @@ public class Node {
                         //Add the difference to the DiffLinkedList.
                         diffList.add(diff);
                     }
-                    //Get the Index of the Minimum element of the diffrences as that index will be 
-                    //the same indexx of the leafe that i want to put the elemenet of the 
+                    //Get the Index of the Minimum element of the diffrences as that index will be
+                    //the same indexx of the leafe that i want to put the elemenet of the
                     //new array in as the distance between them is very samall.
                     int index = diffList.indexOf(Collections.min(diffList));
                     //put that element in the List_Of_Blocks of this leafeNode.
@@ -398,14 +400,14 @@ public class Node {
     public void Print() {
         int row=0;
         int col=0;
-        
+
         row=Treenodes.get(0).getAvgBlock().length;
         col=Treenodes.get(0).getAvgBlock()[0].length;
-        
-        
+
+
         System.out.println("____FINALS_________");
         for (int i = 0; i < Treenodes.size(); i++) {
-            
+
             System.out.println("for each node "+(i+1)+" have those matrices ");
             for (int j = 0; j < Treenodes.get(i).getList_Of_Blocks().size(); j++)
             {
@@ -421,10 +423,10 @@ public class Node {
         }
 
     }
-    
+
     static LinkedList<String> code = new LinkedList<>();
     public static void GenerateCompressCode(LinkedList<Node> TreeEnd,int row,int col){
-        
+
         vector_Quantizer vq = new vector_Quantizer();
         LinkedList<int[][]> listOfData = vq.InitialisingBlocks(row ,col);
         for (int i = 0; i < listOfData.size(); i++) {
@@ -436,18 +438,18 @@ public class Node {
                 }
             }
         }
-        
-        
+
+
 //        try{
 //            File file = new File("");
-//            
+//
 //        }catch(Exception e){
 //            System.out.println(e.toString());
 //        }
-    
+
 }
-    
-    
+
+
     public LinkedList<Double[][]> Decompress(){
 
         LinkedList<Double[][]> decom = new LinkedList<>();
@@ -459,7 +461,7 @@ public class Node {
                 }
             }
         }
-        
+
         System.out.println("DECOMP");
         for (int i = 0; i < decom.size(); i++) {
             for (int j = 0; j < 2; j++) {
@@ -469,7 +471,7 @@ public class Node {
                 System.out.println();
             }
             System.out.println("------------------");
-            
+
         }
         return decom;
     }
